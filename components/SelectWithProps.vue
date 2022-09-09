@@ -1,12 +1,30 @@
-<script setup>
+<script>
 import { ref } from 'vue'
-const selectedValue = ref(1)
+export default {
+  props: ['parentValue'],
+  setup (props, { emit }) {
+    const selectedValue = ref(1)
+
+    function handleSelect (event) {
+      const value = event.target.value
+      emit('some-event', value)
+    }
+
+    return {
+      selectedValue,
+      handleSelect
+    }
+  }
+}
 </script>
 
 <template>
   <div>
-    <div>{{ selectedValue }}</div>
-    <select v-model="selectedValue">
+    <div>
+      <span>In child component: </span>
+      {{ selectedValue }}
+    </div>
+    <select v-model="selectedValue" class="bg-red-200 w-32" @change="handleSelect($event)">
       <option value="1">
         1
       </option>
