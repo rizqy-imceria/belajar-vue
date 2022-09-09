@@ -40,15 +40,33 @@
           </tr>
         </tbody>
       </table>
-      <div class="flex justify-end">
+      <div class="flex justify-end mt-3 gap-2">
         <div>
-          <input v-model="currentPage" type="number">
+          <input v-model="currentPage" class="w-10 p-2" type="number">
         </div>
-        <button @click="prevPage">
-          Previous
+        <button class="bg-gray-300 p-2" @click="prevPage">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6 text-gray-500"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
         </button>
-        <button @click="nextPage">
-          Next
+        <button class="bg-gray-300 p-2" @click="nextPage">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6 text-gray-500"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
         </button>
       </div>
     </div>
