@@ -24,25 +24,48 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(res, index) in result" :key="index">
-            <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
-              {{ (index + 1) + ((currentPage - 1) * 10) }}
-            </td>
-            <td class="p-3 border-b border-gray-200 text-sm bg-white">
-              <img :src="res.url" alt="tes" class="h-[30px]">
-            </td>
-            <td class="p-3 border-b border-gray-200 text-sm bg-white">
-              {{ res.width }}
-            </td>
-            <td class="p-3 border-b border-gray-200 text-sm bg-white">
-              {{ res.height }}
+          <template v-if="$fetchState.pending">
+            <tr v-for="i in 10" :key="'coy' + i">
+              <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500 animate-pulse">
+                <div class="h-6 bg-gray-200 rounded" />
+              </td>
+              <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
+                <div class="h-6 bg-gray-200 rounded" />
+              </td>
+              <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
+                <div class="h-6 bg-gray-200 rounded" />
+              </td>
+              <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
+                <div class="h-6 bg-gray-200 rounded" />
+              </td>
+            </tr>
+          </template>
+          <tr v-if="$fetchState.error">
+            <td colspan="4">
+              error
             </td>
           </tr>
+          <template v-else>
+            <tr v-for="(res, index) in result" :key="index">
+              <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
+                {{ (index + 1) + ((currentPage - 1) * 10) }}
+              </td>
+              <td class="p-3 border-b border-gray-200 text-sm bg-white">
+                <img :src="res.url" alt="tes" class="h-[30px]">
+              </td>
+              <td class="p-3 border-b border-gray-200 text-sm bg-white">
+                {{ res.width }}
+              </td>
+              <td class="p-3 border-b border-gray-200 text-sm bg-white">
+                {{ res.height }}
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
       <div class="flex justify-end mt-3 gap-2">
         <div>
-          <input v-model="currentPage" class="w-10 p-2" type="number">
+          <input v-model.lazy="currentPage" class="w-12 p-2" type="number">
         </div>
         <button class="bg-gray-300 p-2" @click="prevPage">
           <svg
@@ -80,30 +103,28 @@ export default {
       currentPage: 1
     }
   },
-  mounted () {
-    this.fetchData()
-  },
-  methods: {
-    async fetchData () {
-      const response = await fetch(
-        'https://api.thecatapi.com/v1/images/search?' +
+  async fetch () {
+    this.result = []
+    const response = await fetch(
+      'https://api.thecatapi.com/v1/images/search?' +
           new URLSearchParams({
             page: this.currentPage,
             limit: 20
           })
-      )
+    )
 
-      const data = await response.json()
-      this.result = data
-    },
+    const data = await response.json()
+    this.result = data
+  },
+  methods: {
     nextPage () {
       this.currentPage++
-      this.fetchData()
+      this.$fetch()
     },
     prevPage () {
       if (this.currentPage > 1) {
         this.currentPage--
-        this.fetchData()
+        this.$fetch()
       }
     }
   }
