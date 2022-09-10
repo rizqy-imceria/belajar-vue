@@ -7,7 +7,7 @@
 
     <!-- modal overlay -->
     <transition name="fade">
-      <div v-if="showModal" class="absolute inset-0 bg-gray-100 top-0 flex items-center justify-center" @click="showModal = !showModal">
+      <div v-if="showModal" class="absolute inset-0 bg-gray-700 top-0 flex items-center justify-center" @click="showModal = !showModal">
         <!-- modal -->
         <div class="bg-white p-8 rounded w-[300px]">
           <p class="mb-3 leading-6 text-center text-gray-500">
