@@ -25,7 +25,7 @@
         </thead>
         <tbody>
           <template v-if="$fetchState.pending">
-            <tr v-for="i in 10" :key="'coy' + i">
+            <tr v-for="i in limit" :key="'coy' + i">
               <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500 animate-pulse">
                 <div class="h-6 bg-gray-200 rounded" />
               </td>
@@ -48,7 +48,7 @@
           <template v-else>
             <tr v-for="(res, index) in result" :key="index">
               <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
-                {{ (index + 1) + ((currentPage - 1) * 10) }}
+                {{ (index + 1) + ((currentPage - 1) * limit) }}
               </td>
               <td class="p-3 border-b border-gray-200 text-sm bg-white">
                 <img :src="res.url" alt="tes" class="h-[30px]">
@@ -100,7 +100,8 @@ export default {
   data () {
     return {
       result: [],
-      currentPage: 1
+      currentPage: 1,
+      limit: 5
     }
   },
   async fetch () {
@@ -109,7 +110,7 @@ export default {
       'https://api.thecatapi.com/v1/images/search?' +
           new URLSearchParams({
             page: this.currentPage,
-            limit: 20
+            limit: this.limit
           })
     )
 
