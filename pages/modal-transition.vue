@@ -7,7 +7,7 @@
 
     <!-- modal overlay -->
     <transition name="fade">
-      <div v-if="showModal" class="absolute inset-0 top-0 flex items-center justify-center scale-1" @click="showModal = !showModal">
+      <div v-if="showModal" class="absolute inset-0 flex items-center justify-center scale-1" @click="showModal = !showModal">
         <!-- modal -->
         <div class="bg-white p-8 rounded w-[300px]">
           <p class="mb-3 leading-6 text-center text-gray-500">
@@ -41,7 +41,6 @@ export default {
 .fade-enter {
   opacity: 0;
   transform: scale(0);
-  /* transform: scale(1); */
 }
 
 .fade-enter-active {
@@ -49,15 +48,11 @@ export default {
 }
 
 .fade-leave-active {
-  /* transition: opacity 0.3s ease-out; */
   transition: all 0.3s ease-in-out;
 }
 
 .fade-leave-to {
   opacity: 0;
   transform: scale(0)
-  /* transform: scale(0); */
-  /* transform: translate3d(0); */
-  /* transform: translateX(10px); */
 }
 </style>
