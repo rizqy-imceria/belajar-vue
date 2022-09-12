@@ -111,7 +111,12 @@ export default {
           new URLSearchParams({
             page: this.currentPage,
             limit: this.limit
-          })
+          }),
+      {
+        headers: {
+          'X-Auth-Token': 'live_Ovw9MbZYlcqysjzYxmU1xS0SivF8ZRu7fR2J8whG36CyLRCkgif4wfSVXABFCVC5'
+        }
+      }
     )
 
     const data = await response.json()
