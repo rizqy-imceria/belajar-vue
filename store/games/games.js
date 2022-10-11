@@ -6,15 +6,14 @@ const getters = {
       return rating === 9
     })
   },
-  playstationfour(state) {
-    return state.filter(({ console }) => console === 'Playstation 4'))
+  playstationfour (state) {
+    return state.filter(({ console }) => console === 'Playstation 4')
   },
   consoleType (state) {
     return (consoleName) => {
       return state.filter(({ price }) => price === 15.30)
     }
-
   }
 }
 
-export default { state, getters}
+export default { state, getters }
