@@ -23,6 +23,8 @@ export default {
     count (val) {
       if (val > 100) {
         this.isMoreThan100 = true
+      } else {
+        this.isMoreThan100 = false
       }
     }
   },

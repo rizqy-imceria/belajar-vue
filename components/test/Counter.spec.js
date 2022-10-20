@@ -10,4 +10,10 @@ describe('check count value (more than 100)', () => {
     await wrapper.vm.$nextTick()
     expect(wrapper.vm.isMoreThan100).toBe(true)
   })
+
+  it('less than 100', async () => {
+    wrapper.setData({ count: 99 })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.isMoreThan100).toBe(false)
+  })
 })
