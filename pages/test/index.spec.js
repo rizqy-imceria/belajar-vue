@@ -1,5 +1,4 @@
-import IndexPage from '../index.vue'
-console.log(IndexPage.name)
+// import IndexPage from '../index.vue'
 
 describe('test aja', () => {
   it('1 + 1 = 2', () => {
