@@ -6,6 +6,9 @@
     <button class="bg-blue-400 p-2 text-white" @click="increment">
       increment
     </button>
+    <div v-if="isShow">
+      cuy
+    </div>
   </div>
 </template>
 <script setup>

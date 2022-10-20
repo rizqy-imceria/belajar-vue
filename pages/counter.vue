@@ -2,5 +2,5 @@
   <Counter />
 </template>
 <script setup>
-import Counter from '@/components/Counter.vue'
+import Counter from '@/components/Counter2.vue'
 </script>
