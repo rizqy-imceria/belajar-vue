@@ -22,6 +22,6 @@ describe('FormSubmitter', () => {
   it('notification doesnt show on submitted when data-username empty', async () => {
     const wrapper = factory()
 
-    expect(wrapper.contains('.message')).toBe(false)
+    expect(wrapper.find('.message').exists()).toBe(false)
   })
 })
