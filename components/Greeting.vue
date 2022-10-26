@@ -4,10 +4,13 @@
   </div>
 </template>
 <script>
+import { ref } from 'vue'
 export default {
-  data () {
+  setup () {
+    const greeting = ref('Vue and TDD')
+
     return {
-      greeting: 'Vue and TDD'
+      greeting
     }
   }
 }
