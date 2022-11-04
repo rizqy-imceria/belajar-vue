@@ -4,6 +4,9 @@
       learn unit test
     </p>
     <p>selected: {{ selected }}</p>
+    <p class="props">
+      props foo: {{ foo }}
+    </p>
     <select v-model="selected" name="coy">
       <option value="1">
         input satu
@@ -25,6 +28,12 @@
 </template>
 <script>
 export default {
+  props: {
+    foo: {
+      type: String,
+      default: 'foo'
+    }
+  },
   data () {
     return {
       selected: 1
