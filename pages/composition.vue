@@ -1,13 +1,31 @@
 <template>
-  <div>{{ coy }}</div>
+  <div>
+    <p>
+      {{ coy }}
+    </p>
+    <p>
+      test {{ count }}
+    </p>
+    <button class="bg-blue-400" @click="movePage()">
+      move page
+    </button>
+  </div>
 </template>
 <script>
-import { ref } from '@nuxtjs/composition-api'
+import { ref, useStore, useRouter } from '@nuxtjs/composition-api'
 export default {
   setup () {
     const coy = ref('coy')
+    const store = useStore()
+    const router = useRouter()
 
-    return { coy }
+    const count = store.state.counter.counter
+
+    const movePage = () => {
+      router.push('/')
+    }
+
+    return { coy, count, movePage }
   }
 }
 </script>
