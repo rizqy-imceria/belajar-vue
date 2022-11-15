@@ -7,6 +7,7 @@ describe('Emitter', () => {
 
     wrapper.vm.emitEvent()
 
-    console.log(wrapper.emitted())
+    console.log(wrapper.emitted().myEvent)
+    expect(wrapper.emitted().myEvent[0]).toEqual(['name', 'password'])
   })
 })

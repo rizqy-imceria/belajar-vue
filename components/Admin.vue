@@ -13,7 +13,7 @@ export default {
   props: {
     isAdmin: {
       type: Boolean,
-      default: false
+      default: true
     }
   }
 }
