@@ -6,20 +6,29 @@
     <p>
       test {{ count }}
     </p>
+    <Child />
+
     <button class="bg-blue-400" @click="movePage()">
-      move page
+      move page coy
     </button>
   </div>
 </template>
 <script>
-import { ref, useStore, useRouter } from '@nuxtjs/composition-api'
+import { useStore, useRoute, useRouter, computed } from '@nuxtjs/composition-api'
+import Child from '@/components/Child.vue'
 export default {
+  components: { Child },
+  // components: {
+  //   Child: () => '@/components/Child.vue',
+  //   Greeting: () => '@/components/Greeting.vue'
+  // },
   setup () {
-    const coy = ref('coy')
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
 
     const count = store.state.counter.counter
+    const coy = computed(() => route.value.query.coy)
 
     const movePage = () => {
       router.push('/')

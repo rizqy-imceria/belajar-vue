@@ -6,17 +6,27 @@ import Composition from '@/pages/Composition'
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-const store = new Vuex.Store({
-  state: storeConfig().modules.counter.state
-})
+jest.mock('vue-router', () => ({
+  useRoute: jest.fn(() => ({ name: 'Home', query: { coy: 'coy' } }))
+}))
+
+const store = new Vuex.Store(storeConfig())
 
 describe('Composition Page Test', () => {
   it('is render correctly', () => {
     const wrapper = mount(Composition, {
+      mocks: {
+        $route: {
+          query: {
+            coy: 'coy'
+          }
+        }
+      },
       localVue,
       store
     })
 
+    console.log(wrapper.html())
     expect(wrapper.html()).toBeTruthy()
   })
 })
