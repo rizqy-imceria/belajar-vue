@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import storeConfig from './__mocks__/store/counter'
+import storeConfig from '../__mocks__/store/counter'
 import Composition from '@/pages/Composition'
 
 const localVue = createLocalVue()
