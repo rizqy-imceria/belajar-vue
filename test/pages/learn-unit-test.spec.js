@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import LearnUnitTest from '../learn-unit-test.vue'
+import LearnUnitTest from '@/pages/learn-unit-test.vue'
 
 const factory = (propsData) => {
   return mount(LearnUnitTest, propsData)

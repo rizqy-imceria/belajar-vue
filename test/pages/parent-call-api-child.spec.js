@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import ParentCallApiChild from '../parent-call-api-child.vue'
+import ParentCallApiChild from '@/pages/parent-call-api-child.vue'
 import ComponentWithAsyncCall from '@/components/ComponentWithAsyncCall.vue'
 
 const factory = () => {
