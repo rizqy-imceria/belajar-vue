@@ -96,6 +96,8 @@
   </div>
 </template>
 <script>
+// import IP from 'ip'
+const IP = require('ip')
 export default {
   data () {
     return {
@@ -109,7 +111,7 @@ export default {
     const response = await fetch(
       'https://api.thecatapi.com/v1/images/search?' +
           new URLSearchParams({
-            page: this.currentPage,
+            // page: this.currentPage,
             limit: this.limit
           }),
       {
@@ -121,6 +123,10 @@ export default {
 
     const data = await response.json()
     this.result = data
+  },
+  mounted () {
+    // console.log('coyy')
+    console.log(IP.address())
   },
   methods: {
     nextPage () {

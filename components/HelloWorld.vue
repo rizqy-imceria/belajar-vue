@@ -3,6 +3,15 @@
 </template>
 <script>
 export default {
-  props: ['msg']
+  data () {
+    return {
+      msg: 'sebuah pesan'
+    }
+  },
+  methods: {
+    changeMessage (newMessage) {
+      this.msg = newMessage
+    }
+  }
 }
 </script>
