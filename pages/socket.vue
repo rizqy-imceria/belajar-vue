@@ -1,19 +1,27 @@
 <template>
-  <div>
-    <div v-for="(message, key) in messages" :key="key">
-      message: {{ message }}
+  <div class="flex ">
+    <!-- sidebar -->
+    <div class="bg-neutral-100 min-h-screen basis-48">
+      sidebar
     </div>
-    <button class="bg-blue-300 p-3" @click="connect">
-      connect
-    </button>
-    <button class="bg-blue-300 p-3" @click="disconnect">
-      disconnect
-    </button>
-    <div>
-      <input v-model="message" type="text">
-      <button @click="sendMessage">
-        send
-      </button>
+    <div class="grow">
+      <!-- header -->
+      <header class="bg-blue-700 p-6">
+        <h1>simple chat</h1>
+      </header>
+      <!-- message -->
+      <!-- input chat -->
+      <main>
+        <div v-for="(message, key) in messages" :key="key">
+          message: {{ message }}
+        </div>
+        <div>
+          <input v-model="message" type="text">
+          <button @click="sendMessage">
+            send
+          </button>
+        </div>
+      </main>
     </div>
   </div>
 </template>
@@ -35,7 +43,7 @@ export default {
   },
   mounted () {
     this.socket = io('http://localhost:5000/', {
-      autoConnect: false
+      autoConnect: true
     })
 
     this.socket.on('connect', () => console.log('connect coy'))
