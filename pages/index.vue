@@ -96,14 +96,12 @@
   </div>
 </template>
 <script>
-// import IP from 'ip'
-const IP = require('ip')
 export default {
   data () {
     return {
       result: [],
       currentPage: 1,
-      limit: 5
+      limit: 10
     }
   },
   async fetch () {
@@ -123,10 +121,6 @@ export default {
 
     const data = await response.json()
     this.result = data
-  },
-  mounted () {
-    // console.log('coyy')
-    console.log(IP.address())
   },
   methods: {
     nextPage () {

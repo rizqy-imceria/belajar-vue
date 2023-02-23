@@ -2,6 +2,10 @@ import { mount } from '@vue/test-utils'
 import NumberRenderer from '@/components/NumberRenderer.vue'
 
 describe('NumberRenderer', () => {
+  beforeEach(() => {
+    console.log('di jalankan')
+  })
+
   it('render even number', () => {
     const wrapper = mount(NumberRenderer, {
       propsData: {
