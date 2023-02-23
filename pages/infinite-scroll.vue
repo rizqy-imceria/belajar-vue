@@ -18,7 +18,7 @@
         </tr>
       </thead>
       <tbody>
-        <template v-if="$fetchState.pending">
+        <template v-if="isLoading">
           <tr v-for="i in limit" :key="'coy' + i">
             <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500 animate-pulse">
               <div class="h-6 bg-gray-200 rounded" />
@@ -34,7 +34,7 @@
             </td>
           </tr>
         </template>
-        <tr v-if="$fetchState.error">
+        <tr v-if="isError">
           <td colspan="4">
             error
           </td>
@@ -57,13 +57,12 @@
         </template>
       </tbody>
     </table>
-    <!-- enter-to-class="opacity-100" -->
     <transition
       enter-class="opacity-0 translate-y-[30px]"
       leave-to-class="opacity-0 translate-y-[30px]"
     >
       <div
-        v-if="isLoading"
+        v-if="isLoading && result.length > 0"
         class="fixed bottom-7 left-1/2 -translate-x-1/2 py-1 px-5 rounded bg-blue-500 text-white transition-all duration-200"
       >
         Please Wait
@@ -78,17 +77,20 @@ export default {
       result: [],
       currentPage: 1,
       limit: 20,
-      wrapperHeight: 0,
       scrollPosition: 0,
-      isLoading: false
+      isLoading: true,
+      isError: false
     }
   },
-  async fetch () {
+  async mounted () {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.addEventListener('scroll', this.debounceOnScrollPage)
+
     this.result = await this.getData()
+    this.isLoading = false
   },
-  mounted () {
-    this.wrapperHeight = document.documentElement.offsetHeight
-    window.addEventListener('scroll', this.watchScrollPosition)
+  created () {
+    this.debounceOnScrollPage = this.debounce(this.watchScrollPosition, 1000)
   },
   methods: {
     async getData () {
@@ -109,26 +111,25 @@ export default {
 
       return data
     },
-    async addNewData () {
-      this.currentPage += 1
-
-      const result = await this.getData()
-
-      this.result = this.result.concat(result)
-      this.wrapperHeight = document.documentElement.offsetHeight
-      this.isLoading = false
-    },
-    watchScrollPosition (event) {
-      // eslint-disable-next-line no-console
-      console.log(window.scrollY, window.document.documentElement.scrollTop, this.wrapperHeight)
-      if (document.documentElement.scrollTop + window.innerHeight > this.wrapperHeight) {
+    async watchScrollPosition (event) {
+      if (document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight) {
         if (!this.isLoading) {
           this.isLoading = true
 
-          this.addNewData()
+          this.currentPage += 1
+          const result = await this.getData()
+          this.result = this.result.concat(result)
+          this.isLoading = false
         }
       } else {
         this.isLoading = false
+      }
+    },
+    debounce (cb, delay = 0) {
+      let timer
+      return (...args) => {
+        clearTimeout(timer)
+        timer = setTimeout(() => { cb.apply(this, args) }, delay)
       }
     }
   }
