@@ -18,22 +18,6 @@
         </tr>
       </thead>
       <tbody>
-        <template v-if="isLoading">
-          <tr v-for="i in limit" :key="'coy' + i">
-            <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500 animate-pulse">
-              <div class="h-6 bg-gray-200 rounded" />
-            </td>
-            <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
-              <div class="h-6 bg-gray-200 rounded" />
-            </td>
-            <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
-              <div class="h-6 bg-gray-200 rounded" />
-            </td>
-            <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
-              <div class="h-6 bg-gray-200 rounded" />
-            </td>
-          </tr>
-        </template>
         <tr v-if="isError">
           <td colspan="4">
             error
@@ -55,19 +39,13 @@
             </td>
           </tr>
         </template>
+        <tr v-if="isLoading">
+          <td class="text-center" colspan="4">
+            Loading
+          </td>
+        </tr>
       </tbody>
     </table>
-    <transition
-      enter-class="opacity-0 translate-y-[30px]"
-      leave-to-class="opacity-0 translate-y-[30px]"
-    >
-      <div
-        v-if="isLoading && result.length > 0"
-        class="fixed bottom-7 left-1/2 -translate-x-1/2 py-1 px-5 rounded bg-blue-500 text-white transition-all duration-200"
-      >
-        Please Wait
-      </div>
-    </transition>
   </div>
 </template>
 <script>
@@ -76,21 +54,42 @@ export default {
     return {
       result: [],
       currentPage: 1,
-      limit: 20,
       scrollPosition: 0,
+      wrapperHeight: 0,
       isLoading: true,
       isError: false
     }
   },
+  watch: {
+    scrollPosition (value, oldValue) {
+      const pixelFromBottom = this.wrapperHeight - value
+      if (value > oldValue && pixelFromBottom < this.wrapperHeight * 0.5) {
+        if (!this.isLoading) {
+          this.isLoading = true
+
+          this.currentPage += 1
+          this.getData().then((result) => {
+            this.result = this.result.concat(result)
+            this.isLoading = false
+          })
+        }
+      } else {
+        this.isLoading = false
+      }
+    }
+  },
   async mounted () {
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    window.addEventListener('scroll', this.debounceOnScrollPage)
+    window.addEventListener('scroll', this.throttleOnScrollPage)
 
     this.result = await this.getData()
     this.isLoading = false
   },
   created () {
-    this.debounceOnScrollPage = this.debounce(this.watchScrollPosition, 1000)
+    this.throttleOnScrollPage = this.throttle(this.setScrollPosition, 300)
+  },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.throttleOnScrollPage)
   },
   methods: {
     async getData () {
@@ -98,7 +97,7 @@ export default {
         'https://api.thecatapi.com/v1/images/search?' +
           new URLSearchParams({
             page: this.currentPage,
-            limit: this.limit
+            limit: 40
           }),
         {
           headers: {
@@ -111,25 +110,20 @@ export default {
 
       return data
     },
-    async watchScrollPosition (event) {
-      if (document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight) {
-        if (!this.isLoading) {
-          this.isLoading = true
-
-          this.currentPage += 1
-          const result = await this.getData()
-          this.result = this.result.concat(result)
-          this.isLoading = false
-        }
-      } else {
-        this.isLoading = false
-      }
+    setScrollPosition (event) {
+      this.scrollPosition = document.documentElement.scrollTop + window.innerHeight
+      this.wrapperHeight = document.documentElement.offsetHeight
     },
-    debounce (cb, delay = 0) {
-      let timer
-      return (...args) => {
-        clearTimeout(timer)
-        timer = setTimeout(() => { cb.apply(this, args) }, delay)
+    throttle (callback, limit) {
+      let waiting = false
+      return function () {
+        if (!waiting) {
+          callback.apply(this, arguments)
+          waiting = true
+          setTimeout(function () {
+            waiting = false
+          }, limit)
+        }
       }
     }
   }
