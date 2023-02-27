@@ -24,20 +24,27 @@
           </td>
         </tr>
         <template v-else>
-          <tr v-for="(res, index) in result" :key="index">
+          <RecycleScroller
+            v-slot="{ item, index }"
+            class="scroller"
+            :items="result"
+            :item-size="32"
+            key-field="id"
+          >
+            <!-- <td>{{ item }}</td> -->
             <td class="p-3 border-b border-gray-200 text-sm bg-white font-semibold text-gray-500">
               {{ (index + 1) }}
             </td>
             <td class="p-3 border-b border-gray-200 text-sm bg-white">
-              <img :src="res.url" alt="tes" class="h-[30px]">
+              <img :src="item.url" alt="tes" class="h-[30px]">
             </td>
             <td class="p-3 border-b border-gray-200 text-sm bg-white">
-              {{ res.width }}
+              {{ item.width }}
             </td>
             <td class="p-3 border-b border-gray-200 text-sm bg-white">
-              {{ res.height }}
+              {{ item.height }}
             </td>
-          </tr>
+          </RecycleScroller>
         </template>
         <tr v-if="isLoading">
           <td class="text-center" colspan="4">
@@ -49,6 +56,7 @@
   </div>
 </template>
 <script>
+import { RecycleScroller } from 'vue-virtual-scroller'
 export default {
   data () {
     return {
@@ -79,6 +87,7 @@ export default {
     }
   },
   async mounted () {
+    console.log('sdfdsf', RecycleScroller)
     window.scrollTo({ top: 0, behavior: 'smooth' })
     window.addEventListener('scroll', this.throttleOnScrollPage)
 
